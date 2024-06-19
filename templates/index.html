@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>TODO List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">TODO List</h1>
+        <form class="form-inline mb-4" action="/add" method="post">
+            <input class="form-control mr-2" type="text" name="task" placeholder="Enter new task">
+            <button type="submit" class="btn btn-primary">Add task</button>
+        </form>
+        <!--------------------        INCOMPLETE TASKS------------------------------->
+        <h2>Unfinished Tasks</h2>
+        <ul class="list-group mb-4">
+            {% for task in unfinished_tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ task.task }}
+                <a href="/completed/{{ task.id }}" class="btn btn-success btn-sm mr-2">Complete</a>
+                <a href="/edit/{{ task.id }}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                <a href="/delete/{{ task.id }}" class="btn btn-danger btn-sm">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <!--------------------        COMPLETE TASKS------------------------------->
+        <h2>Completed Tasks</h2>
+        <ul class="list-group">
+            {% for task in finished_tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ task.task }}
+                <a href="/delete/{{ task.id }}" class="btn btn-danger btn-sm">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
