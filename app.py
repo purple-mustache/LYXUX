@@ -2,9 +2,17 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+# from models import db, User, TodoTable
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SECRET_KEY'] = 'candy_crush'
+# db.init_app(app)
 db = SQLAlchemy(app)
 
 
@@ -17,7 +25,6 @@ class TodoTable(db.Model):
 
     # the checkbox column of the db table: for if task is completed
     complete = db.Column(db.Boolean, default=False)
-
 
 @app.route('/')
 def index():

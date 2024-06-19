@@ -16,7 +16,7 @@
         </form>
         <!--------------------        INCOMPLETE TASKS------------------------------->
         <h2>Unfinished Tasks</h2>
-        <ul class="list-group mb-4">
+        <ul class="list-group mb-4" id="unfinished-tasks">
             {% for task in unfinished_tasks %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ task.task }}
@@ -28,7 +28,7 @@
         </ul>
         <!--------------------        COMPLETE TASKS------------------------------->
         <h2>Completed Tasks</h2>
-        <ul class="list-group">
+        <ul class="list-group" id="finished-tasks">
             {% for task in finished_tasks %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ task.task }}
@@ -42,5 +42,51 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+        <script>
+        var incompleteTasks = document.getElementById('unfinished-tasks');
+        var completeTasks = document.getElementById('finished-tasks');
+
+        new Sortable(incompleteTasks, {
+            group: 'tasks',
+            animation: 150,
+            onEnd: function(evt) {
+                let order = [];
+                incompleteTasks.querySelectorAll('li').forEach((task, index) => {
+                    order.push({
+                        id: task.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+                fetch('/update-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ order: order })
+                });
+            }
+        });
+
+        new Sortable(completeTasks, {
+            group: 'tasks',
+            animation: 150,
+            onEnd: function(evt) {
+                let order = [];
+                completeTasks.querySelectorAll('li').forEach((task, index) => {
+                    order.push({
+                        id: task.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+                fetch('/update-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ order: order })
+                });
+            }
+        });
+    </script>
 </body>
 </html>
