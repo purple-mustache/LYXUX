@@ -34,7 +34,5 @@ pip install requirements.txt
 ## Running the Test Script
 Now that the setup is complete, you can run the flask app with thi command:
 ```bash
-cd airflow-projects/<path to directory to be worked with>/tests
-
-python3 -m pytest -v <test_script>.py
+python app.py
 ```
